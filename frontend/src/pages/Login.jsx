@@ -1,12 +1,13 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../stores/authUser";
+import { Loader } from "lucide-react";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const { login } = useAuthStore();
+  const { login, isLoggingIn } = useAuthStore();
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -65,10 +66,24 @@ const Login = () => {
             </div>
 
             <button
+              disabled={isLoggingIn}
               type="submit"
               className="bg-red-600 w-full py-2 text-white font-semibold rounded-md hover:bg-red-700"
             >
-              Login
+              {isLoggingIn ? (
+                <>
+                  <Loader
+                    className="mr-2 h-5 w-5 animate-spin"
+                    aria-hidden="true"
+                  />
+                  Loading...
+                </>
+              ) : (
+                <>
+                  <LogIn className="mr-2 h-5 w-5" aria-hidden="true" />
+                  Login
+                </>
+              )}
             </button>
 
             <div className="text-gray-400 text-center">
